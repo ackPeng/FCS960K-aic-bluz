@@ -978,6 +978,31 @@ static int bcm2035(int fd, struct uart_t *u, struct termios *ti)
 	return 0;
 }
 
+static int aic(int fd, struct uart_t *u, struct termios *ti)
+{
+	unsigned char cmd[] = { HCI_COMMAND_PKT, 0x03, 0x0C, 0x00 };
+	unsigned char resp[7];
+
+	printf("aic_init\n");
+
+	if (write(fd, cmd, sizeof(cmd)) != sizeof(cmd)) {
+		fprintf(stderr, "Failed to write reset command\n");
+		return -1;
+	}
+
+	if (read_hci_event(fd, resp, sizeof(resp)) < 7) {
+		fprintf(stderr, "Failed to reset chip, invalid HCI event\n");
+		return -1;
+	}
+
+	if (resp[4] != cmd[1] || resp[5] != cmd[2] || resp[6] != 0x00) {
+		fprintf(stderr, "Failed to reset chip, command failure\n");
+		return -1;
+	}
+
+	return 0;
+}
+
 struct uart_t uart[] = {
 	{ "any",        0x0000, 0x0000, HCI_UART_H4,   115200, 115200,
 				FLOW_CTL, DISABLE_PM, NULL, NULL     },
@@ -1077,6 +1102,9 @@ struct uart_t uart[] = {
 	/* Broadcom BCM43XX */
 	{ "bcm43xx",    0x0000, 0x0000, HCI_UART_H4,   115200, 3000000,
 				FLOW_CTL, DISABLE_PM, NULL, bcm43xx, NULL  },
+
+	{ "aic",   0x0000, 0x0000, HCI_UART_H4,   1500000, 1500000,
+				FLOW_CTL, DISABLE_PM, NULL, aic, NULL },
 
 	{ "ath3k",    0x0000, 0x0000, HCI_UART_ATH3K, 115200, 115200,
 			FLOW_CTL, DISABLE_PM, NULL, ath3k_ps, ath3k_pm  },
