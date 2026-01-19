@@ -71,14 +71,3 @@ Breaks: bluez-lib (<< 5.66),
 Description: BlueZ Bluetooth library for AIC FCS960K
  This package contains the libbluetooth library for the AIC FCS960K chip,
  which provides the Bluetooth programming API.
-
-Package: fcs960k-aic-bluz-testtools
-Architecture: any
-Section: misc
-Priority: optional
-Depends: ${shlibs:Depends},
-         ${misc:Depends},
-         fcs960k-aic-bluez (= ${binary:Version}),
-Description: BlueZ test tools for AIC FCS960K
- This package contains various test tools for the AIC FCS960K Bluetooth stack,
- including l2ping, l2test, and other debugging utilities.
