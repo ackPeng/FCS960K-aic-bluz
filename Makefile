@@ -104,8 +104,8 @@ deb: debian pre_debuild debuild post_debuild
 
 .PHONY: pre_debuild
 pre_debuild:
-	# Create output directory with write permissions
-	mkdir -p $(DEB_OUTPUT_DIR)
+	# Create output directory
+	mkdir -p output
 	# Set cross-compiler environment variables
 	$(eval export CC=aarch64-linux-gnu-gcc)
 	$(eval export CXX=aarch64-linux-gnu-g++)
@@ -116,8 +116,6 @@ debuild:
 
 .PHONY: post_debuild
 post_debuild:
-	@echo "Packages are in: $(DEB_OUTPUT_DIR)"
-	@ls -lh $(DEB_OUTPUT_DIR)/*.deb 2>/dev/null || true
 
 .PHONY: release
 release:
