@@ -23,6 +23,7 @@ main_build_dep:
 	sudo apt-get install -y \
 		autoconf automake libtool \
 		pkg-config \
+		flex bison \
 		libglib2.0-dev:arm64 \
 		libdbus-1-dev:arm64 \
 		libreadline-dev:arm64 \

@@ -27,8 +27,8 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git branch -m GITHUB_RUNNER || true
-          git branch -D main || true
-          git switch -c main || true
+          git branch -D 5.66 || true
+          git switch -c 5.66 || true
           make dch || true
           make test deb
           git reset --hard HEAD~1 || true
