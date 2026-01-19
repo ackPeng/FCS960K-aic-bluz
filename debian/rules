@@ -23,14 +23,5 @@ override_dh_auto_install:
 	$(MAKE) DESTDIR=$(CURDIR)/debian/tmp install
 
 override_dh_builddeb:
+	mkdir -p $(CURDIR)/output
 	dh_builddeb --destdir=$(CURDIR)/output -- -Zxz
-	# Copy deb files to parent directory for dpkg-genbuildinfo
-	for deb in output/*.deb; do \
-		if [ -f "$$deb" ]; then \
-			cp "$$deb" .. ; \
-		fi; \
-	done
-
-# Clean up copied files after dpkg-genbuildinfo
-execute_after_dh_build:
-	rm -f ../$(DEB_SOURCE)_*.deb

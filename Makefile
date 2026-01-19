@@ -100,22 +100,22 @@ dch: debian/changelog
 		--dch-opt=--upstream --commit --commit-msg="feat: release %(version)s"
 
 .PHONY: deb
-deb: debian pre_debuild debuild post_debuild
+deb: debian pre_debuild binary post_debuild
 
 .PHONY: pre_debuild
 pre_debuild:
-	# Create output directory
-	mkdir -p output
 	# Set cross-compiler environment variables
 	$(eval export CC=aarch64-linux-gnu-gcc)
 	$(eval export CXX=aarch64-linux-gnu-g++)
 
-.PHONY: debuild
-debuild:
-	$(CUSTOM_DEBUILD_ENV) CC=aarch64-linux-gnu-gcc CXX=aarch64-linux-gnu-g++ debuild --no-lintian --lintian-hook "lintian --fail-on error,warning --suppress-tags-from-file $(PWD)/debian/common-lintian-overrides -- %p_%v_*.changes" --no-sign -b $(CUSTOM_DEBUILD_ARG)
+.PHONY: binary
+binary:
+	$(CUSTOM_DEBUILD_ENV) CC=aarch64-linux-gnu-gcc CXX=aarch64-linux-gnu-g++ fakeroot debian/rules binary
 
 .PHONY: post_debuild
 post_debuild:
+	@echo "Packages are in: output/"
+	@ls -lh output/*.deb 2>/dev/null || true
 
 .PHONY: release
 release:
