@@ -47,3 +47,24 @@ override_dh_shlibdeps:
 
 override_dh_makeshlibs:
 	dh_makeshlibs -- -c0
+
+# Output deb packages to output directory instead of parent directory
+# (parent directory may not be writable in container environments)
+override_dh_builddeb:
+	dh_builddeb --destdir=$(CURDIR)/output -- -Zxz
+
+# After all deb helpers run, copy files for dpkg-genbuildinfo
+execute_after_dh_builddeb:
+	for deb in output/*.deb; do \
+		if [ -f "$$deb" ]; then \
+			cp "$$deb" .. ; \
+		fi; \
+	done
+
+execute_after_dh_genbuildinfo:
+	# Remove the copied files from parent directory
+	for deb in output/*.deb; do \
+		if [ -f "$$deb" ]; then \
+			rm -f ../$$(basename "$$deb") ; \
+		fi; \
+	done
