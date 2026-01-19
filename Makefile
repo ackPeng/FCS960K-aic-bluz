@@ -66,11 +66,19 @@ main_build:
 .PHONY: post_build
 post_build:
 
+# distclean target - for cleaning everything
 .PHONY: distclean
 distclean: clean
 
+# clean target - called by debuild
 .PHONY: clean
-clean: clean-deb clean-build
+clean:
+	rm -rf debian/.debhelper debian/$(PROJECT)*/ debian/tmp/ debian/debhelper-build-stamp debian/files debian/*.debhelper.log debian/*.*.debhelper debian/*.substvars
+	# Call upstream Makefile distclean if it exists
+	-if [ -f Makefile ]; then \
+		$(MAKE) -f Makefile distclean 2>/dev/null || true; \
+	fi
+	rm -rf autom4te.cache aclocal.m4 compile config.guess config.h.in config.sub configure depcomp install-sh ltmain.sh missing test-driver
 
 .PHONY: clean-deb
 clean-deb:
@@ -78,7 +86,9 @@ clean-deb:
 
 .PHONY: clean-build
 clean-build:
-	[ -f Makefile ] && make distclean || true
+	-if [ -f Makefile ]; then \
+		$(MAKE) -f Makefile distclean 2>/dev/null || true; \
+	fi
 	rm -rf autom4te.cache aclocal.m4 compile config.guess config.h.in config.sub configure depcomp install-sh ltmain.sh missing test-driver
 
 .PHONY: dch
