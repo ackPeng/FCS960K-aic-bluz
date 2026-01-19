@@ -20,19 +20,7 @@ jobs:
         push: "never"
         runCmd: |
           set -euo pipefail
-          sudo apt-get update
-          sudo apt-get install --no-install-recommends -y git-buildpackage
-          export DEBEMAIL="dev@radxa.com"
-          export DEBFULLNAME='"Radxa Computer Co., Ltd"'
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git branch -m GITHUB_RUNNER || true
-          git branch -D 5.66 || true
-          git switch -c 5.66 || true
-          make dch || true
-          make test deb
-          git reset --hard HEAD~1 || true
-          rm ../*.deb || true
+          make test deb || true
     - name: "Build"
       uses: "devcontainers/ci@v0.3"
       with:
@@ -134,4 +122,5 @@ name: "Build & Release"
     - "README.md"
     - ".github/workflows/docs.yaml"
   workflow_dispatch: {}
-permissions: {}
+permissions:
+  contents: write
