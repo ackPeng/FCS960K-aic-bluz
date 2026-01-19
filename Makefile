@@ -116,6 +116,11 @@ debuild:
 
 .PHONY: post_debuild
 post_debuild:
+	@echo "Moving packages to output directory..."
+	@mkdir -p $(DEB_OUTPUT_DIR)
+	@mv ../$(PROJECT)*.deb $(DEB_OUTPUT_DIR)/ 2>/dev/null || true
+	@mv ../$(PROJECT)*.buildinfo $(DEB_OUTPUT_DIR)/ 2>/dev/null || true
+	@mv ../$(PROJECT)*.changes $(DEB_OUTPUT_DIR)/ 2>/dev/null || true
 	@echo "Packages are in: $(DEB_OUTPUT_DIR)"
 	@ls -lh $(DEB_OUTPUT_DIR)/*.deb 2>/dev/null || true
 
