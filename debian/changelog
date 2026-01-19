@@ -1,4 +1,4 @@
-fcs960k-aic-bluez (5.66-1) UNRELEASED; urgency=medium
+fcs960k-aic-bluez (5.66-1) unstable; urgency=medium
 
   * Initial release for AIC FCS960K chip
   * Based on BlueZ 5.66
