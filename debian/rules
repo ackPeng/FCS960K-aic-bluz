@@ -19,20 +19,6 @@ override_dh_auto_clean:
 	# Just remove debian build artifacts
 	dh_clean
 
-override_dh_auto_configure:
-	dh_auto_configure -- \
-		--prefix=/usr \
-		--mandir=/usr/share/man \
-		--sysconfdir=/etc \
-		--localstatedir=/var \
-		--enable-tools \
-		--enable-experimental \
-		--enable-deprecated \
-		--enable-client \
-		--enable-library \
-		--disable-systemd \
-		--disable-udev
-
 override_dh_auto_build:
 	$(MAKE)
 
