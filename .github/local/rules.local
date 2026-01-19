@@ -53,18 +53,6 @@ override_dh_makeshlibs:
 override_dh_builddeb:
 	dh_builddeb --destdir=$(CURDIR)/output -- -Zxz
 
-# After all deb helpers run, copy files for dpkg-genbuildinfo
-execute_after_dh_builddeb:
-	for deb in output/*.deb; do \
-		if [ -f "$$deb" ]; then \
-			cp "$$deb" .. ; \
-		fi; \
-	done
-
-execute_after_dh_genbuildinfo:
-	# Remove the copied files from parent directory
-	for deb in output/*.deb; do \
-		if [ -f "$$deb" ]; then \
-			rm -f ../$$(basename "$$deb") ; \
-		fi; \
-	done
+# Tell dpkg-genbuildinfo to look for deb files in output directory
+override_dh_genbuildinfo:
+	dh_genbuildinfo -- -u$(CURDIR)/output
