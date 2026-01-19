@@ -24,6 +24,7 @@ main_build_dep:
 		autoconf automake libtool \
 		pkg-config \
 		flex bison \
+		python3-docutils \
 		libglib2.0-dev:arm64 \
 		libdbus-1-dev:arm64 \
 		libreadline-dev:arm64 \
@@ -102,10 +103,13 @@ deb: debian pre_debuild debuild post_debuild
 
 .PHONY: pre_debuild
 pre_debuild:
+	# Set cross-compiler environment variables
+	$(eval export CC=aarch64-linux-gnu-gcc)
+	$(eval export CXX=aarch64-linux-gnu-g++)
 
 .PHONY: debuild
 debuild:
-	$(CUSTOM_DEBUILD_ENV) debuild --no-lintian --lintian-hook "lintian --fail-on error,warning --suppress-tags-from-file $(PWD)/debian/common-lintian-overrides -- %p_%v_*.changes" --no-sign -b $(CUSTOM_DEBUILD_ARG)
+	$(CUSTOM_DEBUILD_ENV) CC=aarch64-linux-gnu-gcc CXX=aarch64-linux-gnu-g++ debuild --no-lintian --lintian-hook "lintian --fail-on error,warning --suppress-tags-from-file $(PWD)/debian/common-lintian-overrides -- %p_%v_*.changes" --no-sign -b $(CUSTOM_DEBUILD_ARG)
 
 .PHONY: post_debuild
 post_debuild:
