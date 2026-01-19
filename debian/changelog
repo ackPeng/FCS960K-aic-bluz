@@ -7,4 +7,4 @@ fcs960k-aic-bluez (5.66-1) UNRELEASED; urgency=medium
   * Configured with tools, experimental, deprecated, client, and library support
   * Disabled systemd and udev integration
 
- -- Radxa Computer Co., Ltd <dev@radxa.com>  $(shell date -R)
+ -- Radxa Computer Co., Ltd <dev@radxa.com>  Sun, 19 Jan 2026 00:00:00 +0000
