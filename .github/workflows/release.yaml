@@ -20,6 +20,7 @@ jobs:
         push: "never"
         runCmd: |
           set -euo pipefail
+          sudo chmod -R u+w ..
           make deb
     - id: "artifacts_path"
       name: "Workaround actions/upload-artifact#176"
