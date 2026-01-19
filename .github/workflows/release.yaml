@@ -24,7 +24,7 @@ jobs:
     - id: "artifacts_path"
       name: "Workaround actions/upload-artifact#176"
       run: |
-        echo "artifacts_path=$(realpath ..)" | tee -a "$GITHUB_OUTPUT"
+        echo "artifacts_path=$(realpath output)" | tee -a "$GITHUB_OUTPUT"
       shell: "bash"
     - name: "Upload artifacts"
       uses: "actions/upload-artifact@v5"
