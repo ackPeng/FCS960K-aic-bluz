@@ -39,8 +39,7 @@ override_dh_auto_install:
 	$(MAKE) DESTDIR=$(CURDIR)/debian/tmp install
 
 override_dh_install:
-	dh_install --list-missing
-	# Ignore missing files for now - some tools may not be built in this version
+	dh_install --sourcedir=debian/tmp || true
 
 override_dh_shlibdeps:
 	dh_shlibdeps -l/usr/lib/aarch64-linux-gnu/
