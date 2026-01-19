@@ -23,8 +23,8 @@ install-sh
 ltmain.sh
 missing
 test-driver
-Makefile
-Makefile.in
+/Makefile
+/Makefile.in
 autom4te.cache
 
 # Debian packaging
