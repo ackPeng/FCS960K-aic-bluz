@@ -47,3 +47,7 @@ override_dh_shlibdeps:
 
 override_dh_makeshlibs:
 	dh_makeshlibs -- -c0
+
+# Output deb packages to output directory (parent may not be writable in container)
+override_dh_builddeb:
+	dh_builddeb --destdir=$(CURDIR)/output -- -Zxz
