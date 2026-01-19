@@ -1,42 +1,5 @@
 {
-  "customizations": {
-    "vscode": {
-      "settings": {
-        "terminal.integrated.defaultProfile.linux": "bash"
-      },
-      "extensions": [
-        "mkhl.direnv",
-        "github.vscode-github-actions",
-        "ms-vscode.cpptools-extension-pack",
-        "ms-vscode.makefile-tools"
-      ]
-    }
-  },
   "image": "mcr.microsoft.com/devcontainers/base:bullseye",
-  "features": {
-    "ghcr.io/devcontainers/features/nix:1": {
-      "version": "latest",
-      "packages": "cachix,direnv,devenv",
-      "useAttributePath": true,
-      "extraNixConfig": [
-        "experimental-features = nix-command flakes",
-        "trusted-users = root vscode"
-      ]
-    }
-  },
-  "mounts": [
-    {
-      "source": "${localWorkspaceFolder}/.devcontainer/.devenv",
-      "target": "${containerWorkspaceFolder}/.devenv",
-      "type": "bind"
-    },
-    {
-      "source": "${localWorkspaceFolder}/.devcontainer/.direnv",
-      "target": "${containerWorkspaceFolder}/.direnv",
-      "type": "bind"
-    }
-  ],
-  "workspaceMount": "source=${localWorkspaceFolder}/..,target=/workspaces,type=bind,consistency=cached",
   "runArgs": [
     "--ulimit", "nofile=1024:524288"
   ],
