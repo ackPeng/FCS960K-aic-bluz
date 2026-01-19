@@ -1,0 +1,32 @@
+export DEB_CFLAGS_MAINT_APPEND = -pthread
+
+# Configure flags for bluez cross-compilation
+CONFFLAGS = \
+	--prefix=/usr \
+	--mandir=/usr/share/man \
+	--sysconfdir=/etc \
+	--localstatedir=/var \
+	--enable-tools \
+	--enable-experimental \
+	--enable-deprecated \
+	--enable-client \
+	--enable-library \
+	--disable-systemd \
+	--disable-udev \
+	--host=aarch64-linux-gnu
+
+override_dh_auto_configure:
+	dh_auto_configure -- $(CONFFLAGS)
+
+override_dh_install:
+	dh_install \
+		--exclude=.la \
+		--exclude=.a \
+		--exclude=.gitignore \
+		--exclude=.git
+
+override_dh_shlibdeps:
+	dh_shlibdeps -l/usr/lib/aarch64-linux-gnu/
+
+override_dh_makeshlibs:
+	dh_makeshlibs -- -c0

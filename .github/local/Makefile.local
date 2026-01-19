@@ -1,0 +1,42 @@
+# Cross-compile for arm64
+CUSTOM_DEBUILD_ARG := -aarm64 -Pcross
+
+# Export cross-compiler flags for autotools
+export CC := aarch64-linux-gnu-gcc
+export CXX := aarch64-linux-gnu-g++
+export LD := aarch64-linux-gnu-ld
+export AR := aarch64-linux-gnu-ar
+export RANLIB := aarch64-linux-gnu-ranlib
+export STRIP := aarch64-linux-gnu-strip
+
+# PKG_CONFIG for cross-compilation
+export PKG_CONFIG_PATH :=
+export PKG_CONFIG_LIBDIR := /usr/lib/aarch64-linux-gnu/pkgconfig:/usr/share/pkgconfig
+export PKG_CONFIG_SYSROOT_DIR := /
+
+# Configure flags for bluez
+CONFIGURE_FLAGS := \
+	--prefix=/usr \
+	--mandir=/usr/share/man \
+	--sysconfdir=/etc \
+	--localstatedir=/var \
+	--enable-tools \
+	--enable-experimental \
+	--enable-deprecated \
+	--enable-client \
+	--enable-library \
+	--disable-systemd \
+	--disable-udev \
+	--host=aarch64-linux-gnu \
+	--build=x86_64-linux-gnu
+
+.PHONY: autogen
+autogen:
+	autoreconf -vif
+
+.PHONY: configure-bluez
+configure-bluez: autogen
+	./configure $(CONFIGURE_FLAGS)
+
+main_build: configure-bluez
+	$(MAKE)
